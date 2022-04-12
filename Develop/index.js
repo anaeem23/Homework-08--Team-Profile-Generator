@@ -1,6 +1,7 @@
 const inquirer = require("inquirer");
 const fs = require("fs");
 const { response } = require("express");
+const e = require("express");
 
 var String = "";
 var listOfEmployees = [];
@@ -109,7 +110,7 @@ class Employee {
     this.name = response.Name;
     this.ID = response.ID;
     this.email = response.Email;
-    this.role = 'Employee';
+    this.role = "Employee";
   }
 
   getName() {
@@ -133,7 +134,7 @@ class Manager extends Employee {
   constructor(response) {
     super(response);
     this.officeNumber = response.offNum;
-    this.role = 'Manager'
+    this.role = "Manager";
   }
 }
 
@@ -141,7 +142,7 @@ class Engineer extends Employee {
   constructor(response) {
     super(response);
     this.github = response.Github;
-    this.role = "Engineer"
+    this.role = "Engineer";
   }
 
   getGithub() {
@@ -153,7 +154,7 @@ class Intern extends Employee {
   constructor(response) {
     super(response);
     this.school = response.School;
-    this.role = "Intern"
+    this.role = "Intern";
   }
 
   getSchool() {
@@ -164,7 +165,7 @@ class Intern extends Employee {
 function init() {
   inquirer.prompt(introQ).then((response) => {
     const newManager = new Manager(response);
-  
+
     listOfEmployees.push(newManager);
 
     if (response.class === "Engineer") {
@@ -193,45 +194,76 @@ function engineerInit() {
 }
 
 function internInit() {
-    inquirer.prompt(internQ).then((response) => {
-        const newIntern = new Intern(response);
-        listOfEmployees.push(newIntern);
-    
-        if (response.class === "Engineer") {
-          engineerInit();
-        } else if (response.class === "Intern") {
-          internInit();
-        } else {
-          Publish();
-        }
-      });
+  inquirer.prompt(internQ).then((response) => {
+    const newIntern = new Intern(response);
+    listOfEmployees.push(newIntern);
+
+    if (response.class === "Engineer") {
+      engineerInit();
+    } else if (response.class === "Intern") {
+      internInit();
+    } else {
+      Publish();
+    }
+  });
 }
 
 function Publish() {
-    
-    listOfEmployees.forEach(element => {
-
-        employeeData = `
+  listOfEmployees.forEach((element) => {
+    if (element.role === "Manager") {
+      employeeData = `
         
-        <div class="card m-3" style="width: 18rem;">
-        <div class="card-body">
-          <h5 class="card-title">${element.name}</h5>
-          <h6 class="card-subtitle mb-2 text-muted">${element.role}</h6>
-          <ul class="list-group list-group-flush">
-          <li class="list-group-item">${element.ID}</li>
-          <li class="list-group-item">A second item</li>
-          <li class="list-group-item">A third item</li>
-        </ul>
-    
-        </div>
-      </div>
-        `
+            <div class="card m-3" style="width: 18rem;">
+            <div class="card-body">
+              <h5 class="card-title">${element.name}</h5>
+              <h6 class="card-subtitle mb-2 text-muted">${element.role}</h6>
+              <ul class="list-group list-group-flush">
+              <li class="list-group-item">ID: ${element.ID}</li>
+              <li class="list-group-item">Email: ${element.email}</li>
+              <li class="list-group-item">Office Number: ${element.officeNumber}</li>
+            </ul>
+        
+            </div>
+          </div>
+            `;
+    } else if (element.role === "Engineer") {
+      employeeData = `
+        
+            <div class="card m-3" style="width: 18rem;">
+            <div class="card-body">
+              <h5 class="card-title">${element.name}</h5>
+              <h6 class="card-subtitle mb-2 text-muted">${element.role}</h6>
+              <ul class="list-group list-group-flush">
+              <li class="list-group-item">ID: ${element.ID}</li>
+              <li class="list-group-item">Email: ${element.email}</li>
+              <li class="list-group-item">Github: ${element.github}</li>
+            </ul>
+        
+            </div>
+          </div>
+            `;
+    } else {
+      employeeData = `
+        
+            <div class="card m-3" style="width: 18rem;">
+            <div class="card-body">
+              <h5 class="card-title">${element.name}</h5>
+              <h6 class="card-subtitle mb-2 text-muted">${element.role}</h6>
+              <ul class="list-group list-group-flush">
+              <li class="list-group-item">ID: ${element.ID}</li>
+              <li class="list-group-item">Email: ${element.email}</li>
+              <li class="list-group-item">School: ${element.school}</li>
+            </ul>
+        
+            </div>
+          </div>
+            `;
+    }
 
-        String += `${employeeData}`
+    String += `${employeeData}`;
+  });
 
-    })
-
-    const Template = `<!DOCTYPE html>
+  const Template = `<!DOCTYPE html>
     <html lang="en">
     <head>
         <meta charset="UTF-8">
@@ -242,6 +274,11 @@ function Publish() {
     </head>
     <body>
         
+    <div class="mt-0 p-5 bg-primary text-white">
+    <h1 class="justify-content-center">Employee Database</h1>
+  </div>
+
+
     <div class = "container">
     <div class="row justify-content-around">
         ${String}
@@ -253,12 +290,11 @@ function Publish() {
     
         <script src="./index.js"></script>
     </body>
-    </html>`
+    </html>`;
 
-
-    fs.writeFile('sampleTest.html', Template, (err) =>
-    err ? console.error(err) : console.log("Done!"))
-
+  fs.writeFile("sampleTest.html", Template, (err) =>
+    err ? console.error(err) : console.log("Done!")
+  );
 }
 
 init();
