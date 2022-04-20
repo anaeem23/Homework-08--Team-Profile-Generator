@@ -3,6 +3,11 @@ const fs = require("fs");
 const { response } = require("express");
 const e = require("express");
 
+const Employee = require('./lib/employeeClass')
+const Engineer = require('./lib/engineerClass')
+const Intern = require('./lib/internClass')
+const Manager = require('./lib/managerClass')
+
 var String = "";
 var listOfEmployees = [];
 
@@ -105,62 +110,13 @@ const internQ = [
   },
 ];
 
-class Employee {
-  constructor(response) {
-    this.name = response.Name;
-    this.ID = response.ID;
-    this.email = response.Email;
-    this.role = "Employee";
-  }
 
-  getName() {
-    console.log(this.name);
-  }
 
-  getID() {
-    console.log(this.ID);
-  }
 
-  getEmail() {
-    console.log(this.email);
-  }
 
-  getRole() {
-    console.log(this.role);
-  }
-}
 
-class Manager extends Employee {
-  constructor(response) {
-    super(response);
-    this.officeNumber = response.offNum;
-    this.role = "Manager";
-  }
-}
 
-class Engineer extends Employee {
-  constructor(response) {
-    super(response);
-    this.github = response.Github;
-    this.role = "Engineer";
-  }
 
-  getGithub() {
-    console.log(this.github);
-  }
-}
-
-class Intern extends Employee {
-  constructor(response) {
-    super(response);
-    this.school = response.School;
-    this.role = "Intern";
-  }
-
-  getSchool() {
-    console.log(this.school);
-  }
-}
 
 function init() {
   inquirer.prompt(introQ).then((response) => {
@@ -292,7 +248,7 @@ function Publish() {
     </body>
     </html>`;
 
-  fs.writeFile("sampleTest.html", Template, (err) =>
+  fs.writeFile("sampleTest1.html", Template, (err) =>
     err ? console.error(err) : console.log("Done!")
   );
 }
