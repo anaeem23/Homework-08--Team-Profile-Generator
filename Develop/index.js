@@ -175,7 +175,7 @@ function Publish() {
               <h6 class="card-subtitle mb-2 text-muted">${element.role}</h6>
               <ul class="list-group list-group-flush">
               <li class="list-group-item">ID: ${element.ID}</li>
-              <li class="list-group-item">Email: ${element.email}</li>
+              <li class="list-group-item">Email: <a href="mailto:${element.email}"> ${element.email} </a></li>
               <li class="list-group-item">Office Number: ${element.officeNumber}</li>
             </ul>
         
@@ -191,8 +191,8 @@ function Publish() {
               <h6 class="card-subtitle mb-2 text-muted">${element.role}</h6>
               <ul class="list-group list-group-flush">
               <li class="list-group-item">ID: ${element.ID}</li>
-              <li class="list-group-item">Email: ${element.email}</li>
-              <li class="list-group-item">Github: ${element.github}</li>
+              <li class="list-group-item">Email: <a href="mailto:${element.email}"> ${element.email} </a></li>
+              <li class="list-group-item">Github: <a href="https://github.com/${element.github}" target="_blank"> ${element.github}</a></li>
             </ul>
         
             </div>
@@ -207,7 +207,7 @@ function Publish() {
               <h6 class="card-subtitle mb-2 text-muted">${element.role}</h6>
               <ul class="list-group list-group-flush">
               <li class="list-group-item">ID: ${element.ID}</li>
-              <li class="list-group-item">Email: ${element.email}</li>
+              <li class="list-group-item">Email:<a href="mailto:${element.email}"> ${element.email} </a> </li>
               <li class="list-group-item">School: ${element.school}</li>
             </ul>
         
@@ -248,7 +248,7 @@ function Publish() {
     </body>
     </html>`;
 
-  fs.writeFile("sampleTest1.html", Template, (err) =>
+  fs.writeFile("SAMPLE.html", Template, (err) =>
     err ? console.error(err) : console.log("Done!")
   );
 }
