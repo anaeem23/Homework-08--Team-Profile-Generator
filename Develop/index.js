@@ -3,7 +3,7 @@ const fs = require("fs");
 const { response } = require("express");
 const e = require("express");
 
-const Employee = require('./lib/employeeClass')
+// const Employee = require('./lib/employeeClass')
 const Engineer = require('./lib/engineerClass')
 const Intern = require('./lib/internClass')
 const Manager = require('./lib/managerClass')
